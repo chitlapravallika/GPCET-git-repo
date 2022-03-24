@@ -1,0 +1,31 @@
+import streamlit as st  
+import pandas as pd  
+from sklearn.model_selection import train_test_split  
+from sklearn.neighbors import KNeighborsClassifier  
+from sklearn.metrics import accuracy_score  
+  
+st.header('Diabetes Prediction')  
+  
+dataset=pd.read_csv('diabetes.csv')  
+X=dataset.iloc[:,:-1].values  
+Y=dataset.iloc[:,-1].values  
+  
+X_train,X_test,Y_train,Y_test=train_test_split(X,Y,test_size=0.2)  
+classifier=KNeighborsClassifier()  
+classifier.fit(X_train,Y_train)  
+Y_pred=classifier.predict(X_test)  
+print(accuracy_score(Y_pred,Y_test)) 
+ 
+P=st.text_input('Enter pregnencies') 
+G=st.text_input('Enter glucose') 
+ST=st.text_input('Enter skinthickness') 
+BP=st.text_input('Enter bloodpressure') 
+I=st.text_input('Enter insuline') 
+BMI=st.text_input('Enter bmi') 
+DPF=st.text_input('Enter dpf') 
+A=st.text_input('Enter age') 
+
+ 
+if st.button('Predict diabetes'): 
+    crop=classifier.predict([[P,G,ST,BP,I,BMI,DPF,A]])[0] 
+    st.success('diabetes')
